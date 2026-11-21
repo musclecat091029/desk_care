@@ -1,0 +1,16 @@
+# Build outputs
+*.exe
+*.test
+*.out
+dist/
+build/
+tmp/
+# OS and IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+# Sensitive local data
+*.log
+.env
+.env.*
