@@ -31,7 +31,14 @@ jobs:
           python-version: '3.12'
 
       - name: Test
-        run: go test ./...
+        shell: pwsh
+        run: |
+          # The app deliberately protects AppData. Run test fixtures outside it.
+          $testTmp = Join-Path $env:RUNNER_TEMP 'deskcare-tests'
+          New-Item -ItemType Directory -Force -Path $testTmp | Out-Null
+          $env:TMP = $testTmp
+          $env:TEMP = $testTmp
+          go test ./...
 
       - name: Build Windows executable with DeskCare icon
         shell: cmd
