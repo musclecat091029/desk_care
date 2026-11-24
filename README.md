@@ -5,7 +5,7 @@
 
 파일을 사진·동영상·문서 등으로 나눠 용량을 확인하고, 중복·대용량·오래된 파일을 찾아 **직접 선택한 파일만 휴지통으로 이동**합니다.
 
-> **다운로드 상태:** 소스코드는 이 저장소에서 확인할 수 있습니다. **Windows 실행 파일은 아직 GitHub Releases에 게시되지 않았습니다.** [Releases 보기](https://github.com/musclecat091029/desk_care/releases)
+> **Windows 실행 파일:** [deskcare_window_1.9.exe 다운로드](https://github.com/musclecat091029/desk_care/releases/download/v1.9/deskcare_window_1.9.exe) · [릴리스 및 체크섬](https://github.com/musclecat091029/desk_care/releases/tag/v1.9). **현재는 코드 서명 및 Windows 실기기 검증이 완료되지 않은 테스트용 사전 출시(Pre-release)**입니다.
 
 ## 기능
 
@@ -22,7 +22,7 @@
 
 ## 실행 및 사용
 
-1. 공식 배포가 완료되면 [GitHub Releases](https://github.com/musclecat091029/desk_care/releases)에서 `deskcare_window_1.9.exe`를 내려받습니다.
+1. [GitHub Releases v1.9](https://github.com/musclecat091029/desk_care/releases/tag/v1.9)에서 `deskcare_window_1.9.exe`를 내려받습니다. 다운로드한 파일은 체크섬으로 검증하고 중요 데이터를 백업하세요.
 2. 기존 DeskCare를 종료한 뒤 EXE를 실행합니다. 일반 사용자에게 Go 또는 Python 설치는 필요하지 않습니다.
 3. **사용자 폴더 선택 → 분석 → 파일 확인 → 휴지통으로 이동** 순서로 사용합니다.
 

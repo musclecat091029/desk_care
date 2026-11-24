@@ -1,10 +1,10 @@
 # DeskCare 1.9 사용설명서
 
-> **배포 상태**: GitHub에는 아직 EXE 및 전체 소스가 게시되지 않았습니다. Windows용 파일을 게시하면 [Releases](https://github.com/musclecat091029/desk_care/releases)에서 내려받을 수 있습니다.
+> **다운로드**: [DeskCare v1.9 릴리스](https://github.com/musclecat091029/desk_care/releases/tag/v1.9)에서 `deskcare_window_1.9.exe`와 `SHA256SUMS.txt`를 받을 수 있습니다. **디지털 서명이 없고 Windows 실기기 검증이 완료되지 않은 사전 출시**입니다.
 
 ## 1. 시작하기
 
-1. 정식 배포 파일 `deskcare_window_1.9.exe`를 확보합니다.
+1. [릴리스](https://github.com/musclecat091029/desk_care/releases/tag/v1.9)에서 `deskcare_window_1.9.exe`를 다운로드하고 SHA-256을 확인합니다.
 2. 기존 DeskCare를 실행 중이라면 창을 닫아 완전히 종료합니다. 남아 있는 프로세스는 작업 관리자에서 종료합니다.
 3. EXE를 실행하고 분석할 사용자 폴더를 고릅니다.
 4. **선택한 폴더 분석** 버튼으로 파일 목록을 생성합니다.
