@@ -91,6 +91,10 @@ func TestRelaxedModeDoesNotEnableDangerousDeletes(t *testing.T) {
 		}
 	}
 	for _, name := range []string{"notes.txt", "plan.md", "numbers.csv"} {
+		// Real files are required for the Windows attributes and delete guard.
+		if err := os.WriteFile(filepath.Join(root, name), []byte("sample"), 0600); err != nil {
+			t.Fatal(err)
+		}
 		if got := protectionReasonWithMode(filepath.Join(root, name), []string{root}, nil, true); got != "" {
 			t.Errorf("text content blocked: %s: %s", name, got)
 		}

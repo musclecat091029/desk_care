@@ -52,7 +52,13 @@ func TestSafetyRules(t *testing.T) {
 		{"out of root", filepath.Join(dir, "other.jpg"), false},
 	}
 	for _, tc := range cases {
-		// The protection policy is almost entirely path-based and can run before a file exists.
+		// Windows correctly rejects missing files when checking their attributes.
+		// Create only the expected deletable fixtures; protected paths can be absent.
+		if tc.canTrash {
+			if err := os.WriteFile(tc.path, []byte("sample"), 0600); err != nil {
+				t.Fatal(err)
+			}
+		}
 		reason := protectionReason(tc.path, []string{root})
 		if (reason == "") != tc.canTrash {
 			t.Errorf("%s: reason %q canTrash %v", tc.name, reason, tc.canTrash)

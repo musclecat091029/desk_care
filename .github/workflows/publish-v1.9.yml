@@ -33,7 +33,8 @@ jobs:
       - name: Test
         shell: pwsh
         run: |
-          # The app deliberately protects AppData. Run test fixtures outside it.
+          # AppData is protected, and the Windows safety guard requires real
+          # files for attribute checks. Keep test fixtures in a safe temp path.
           $testTmp = Join-Path $env:RUNNER_TEMP 'deskcare-tests'
           New-Item -ItemType Directory -Force -Path $testTmp | Out-Null
           $env:TMP = $testTmp
