@@ -1,46 +1,35 @@
-# DeskCare 1.9 — GitHub 배포 안내
+# DeskCare 1.9 배포 안내
 
-## 2026-11-24 현재 상태
+현재 GitHub에는 **소스코드와 사용설명서**가 공개되어 있습니다. **공식 Release 실행 파일은 아직 게시되지 않았습니다.**
 
-- README, CHANGELOG, 설치·사용·보안 문서: GitHub 게시됨
-- Windows EXE: **GitHub Releases 업로드 전**
-- 전체 Go 및 UI 소스: **GitHub 업로드 완료 (main 브랜치)**
-- 공개 저장소: https://github.com/musclecat091029/desk_care
-- 버전: **1.9**
+## Windows 빌드 (개발자)
 
-## 실행 파일 배포 절차
+필요 도구: Go 1.23 이상(프로젝트 기준 1.23), Python 3, Windows 64비트 환경.
 
-1. [새 Release 만들기](https://github.com/musclecat091029/desk_care/releases/new)를 엽니다.
-2. **Choose a tag**에서 새로운 태그 `v1.9`를 만듭니다.
-3. Release title: `DeskCare 1.9 — Installed App Paths & Smart Cleanup Filters`
-4. 다음 변경 사항을 본문에 적습니다.
-   - 설치된 앱의 설치 경로 표시 및 폴더 열기
-   - 스마트 정리와 전체 파일 필터 연동
-   - 오래된 파일 검색을 분석한 전체 사용자 폴더로 확대
-   - 기존 자동 보호·휴지통 이동 유지
-   - **디지털 서명 없음: SmartScreen 경고 가능**
-5. 컴퓨터에 저장한 `deskcare_window_1.9.exe`를 **Attach binaries** 영역에 넣습니다.
-6. **Publish release**를 클릭합니다.
+```bat
+build_windows.bat
+```
 
-## 체크섬
+이 스크립트는 `deskcare_window_1.9.exe`를 빌드하고 `scripts/embed_windows_icon.py`를 통해 `assets/windows/deskcare_icon_resource.bin`의 고양이 아이콘을 포함합니다.
 
-EXE 파일명: `deskcare_window_1.9.exe`
+GitHub Actions도 소스가 빌드되는지 검사하지만, **Windows 실기기 실행·보안 검증 및 코드 서명은 별도**로 진행해야 합니다.
 
-SHA-256: `69de78dbfda2bfc1670bfa9b134f3b90d23f3b0953519846ae7aa3ae9e981bd3`
+## 새 GitHub Release 게시 (저장소 소유자)
 
-Windows PowerShell에서 확인:
+1. [새 릴리스 생성](https://github.com/musclecat091029/desk_care/releases/new) 페이지에서 **Choose a tag → v1.9**를 생성합니다.
+2. 제목은 `DeskCare 1.9`로 지정합니다.
+3. `deskcare_window_1.9.exe` 파일을 **Attach binaries** 영역에 추가합니다.
+4. 사용자 눈높이로 주요 변경점과 **코드 서명 미적용 / SmartScreen 경고 가능** 사항을 적습니다.
+5. 배포 전 바이러스 검사, 최신 Windows 실기기 테스트 및 SHA-256 확인을 완료하고 **Publish release**를 누릅니다.
+
+PowerShell에서 해시 확인:
 
 ```powershell
 Get-FileHash .\deskcare_window_1.9.exe -Algorithm SHA256
 ```
 
-해시가 다르면 동일한 배포 파일인지 다시 확인하세요.
+과거에 제작된 1.9 실행 파일의 SHA-256: `69de78dbfda2bfc1670bfa9b134f3b90d23f3b0953519846ae7aa3ae9e981bd3`.
 
-## 소스코드 업로드 절차
+**주의:** 소스코드에서 새로 빌드한 EXE의 체크섬은 빌드 도구나 환경에 따라 다를 수 있습니다. 실제 배포 파일의 체크섬을 다시 계산한 후 릴리스 본문에 표기하세요.
 
-1. 준비된 `deskcare_window_1.9_source.zip`을 압축 해제합니다.
-2. GitHub 저장소의 [Add file → Upload files](https://github.com/musclecat091029/desk_care/upload/main)를 엽니다.
-3. 압축을 푼 **Go 소스코드, `ui/`, `docs/` 및 빌드 파일**을 폴더 구조 그대로 등록합니다. 이미 있는 README·CHANGELOG·문서는 새 버전과 내용이 중복되므로 기존 파일을 덮어쓸 경우 비교하세요.
-4. EXE 실행 파일은 저장소 루트보다 **Releases 첨부 파일**로 배포하는 편을 권장합니다.
-
-> 주의: 디지털 서명 없는 EXE의 배포는 출처 검증과 Windows 실기기 보안 테스트가 필요합니다. 보안 검증 완료라고 표기하지 마세요.
+현재는 최신 버전 자동 업데이트 알림 기능이 없습니다. 사용자는 Releases 페이지에서 수동으로 새 버전을 확인해야 합니다.

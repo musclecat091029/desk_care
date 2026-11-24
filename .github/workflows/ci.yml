@@ -1,0 +1,45 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Go tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: go test ./...
+
+  windows-build:
+    name: Unsigned Windows build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build portable EXE and embed icon
+        shell: cmd
+        run: call build_windows.bat
+      - name: Confirm EXE exists
+        shell: pwsh
+        run: |
+          if (-not (Test-Path 'deskcare_window_1.9.exe')) { throw 'EXE not produced' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deskcare-windows-unsigned-ci
+          path: deskcare_window_1.9.exe
+          if-no-files-found: error

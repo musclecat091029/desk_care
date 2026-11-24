@@ -1,6 +1,6 @@
 """Attach the DeskCare Windows icon resource to a Go-built unsigned PE exe.
 
-Usage: python embed_windows_icon.py deskcare_window_1.9.exe
+Usage: python scripts/embed_windows_icon.py deskcare_window_1.9.exe
 This script is used only to build releases; end users need no Python.
 Resource section is derived from the bundled DeskCare cat icon.
 """
@@ -98,4 +98,4 @@ def embed_icon(exe_path,payload_path):
     print('Updated PE icon:',exe_path, 'resource entries',len(leaves),'size',len(exe))
 
 if __name__=='__main__':
-    embed_icon(sys.argv[1],Path(__file__).with_name('deskcare_icon_resource.bin'))
+    embed_icon(sys.argv[1],Path(__file__).resolve().parent.parent / 'assets' / 'windows' / 'deskcare_icon_resource.bin')
