@@ -1,0 +1,75 @@
+name: Publish DeskCare 1.9
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/publish-v1.9.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    if: github.repository == 'musclecat091029/desk_care' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Set up Python for icon resources
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test
+        run: go test ./...
+
+      - name: Build Windows executable with DeskCare icon
+        shell: cmd
+        run: call build_windows.bat
+
+      - name: Check executable and create SHA-256 checksum
+        shell: pwsh
+        run: |
+          $exe = 'deskcare_window_1.9.exe'
+          if (-not (Test-Path $exe)) { throw 'Windows executable not built' }
+          $magic = [System.IO.File]::ReadAllBytes($exe)
+          if ($magic.Length -lt 1000 -or $magic[0] -ne 0x4D -or $magic[1] -ne 0x5A) { throw 'Invalid Windows executable' }
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $exe" | Set-Content -Path SHA256SUMS.txt -Encoding ascii
+          Write-Host "SHA-256: $hash"
+
+      - name: Publish v1.9 prerelease (only if not already published)
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view v1.9 *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host 'Release v1.9 already exists; no replacement performed.'
+            exit 0
+          }
+          @'
+          DeskCare 1.9 — Windows 10/11 (64-bit)
+
+          변경 사항:
+          - 설치된 앱의 등록된 설치 경로 표시 및 폴더 열기
+          - 스마트 정리 필터와 전체 파일 목록 연동
+          - 오래된 파일 검색 범위를 선택한 분석 폴더 전체로 확대
+          - 기존 파일 자동 보호 기능 및 고양이 아이콘 유지
+
+          이 파일은 디지털 서명되지 않았습니다. Windows SmartScreen 경고가 표시될 수 있습니다.
+          Windows 실기기에서의 전체 검증이 아직 완료되지 않은 테스트용 사전 출시입니다.
+          신뢰할 수 없는 파일은 실행하지 마세요. 중요한 파일은 백업한 뒤 테스트하세요.
+          '@ | Set-Content -Path RELEASE_NOTES.txt -Encoding utf8
+          gh release create v1.9 deskcare_window_1.9.exe SHA256SUMS.txt --target $env:GITHUB_SHA --title 'DeskCare 1.9' --notes-file RELEASE_NOTES.txt --prerelease
+          if ($LASTEXITCODE -ne 0) { throw 'Failed to publish v1.9 release' }
