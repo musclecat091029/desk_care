@@ -4,7 +4,7 @@
 
 - README, CHANGELOG, 설치·사용·보안 문서: GitHub 게시됨
 - Windows EXE: **GitHub Releases 업로드 전**
-- 전체 Go 및 UI 소스: **GitHub 업로드 전**
+- 전체 Go 및 UI 소스: **GitHub 업로드 완료 (main 브랜치)**
 - 공개 저장소: https://github.com/musclecat091029/desk_care
 - 버전: **1.9**
 
